@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Calculadora IPv4 de subredes CIDR y asignaciones VLSM.">
+  <title>Calculadora IP · CIDR y VLSM</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="js/ipv4.js"></script>
+  <script defer src="js/ui.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <div class="wrap masthead-inner">
+      <div>
+        <p class="eyebrow">IPN / ESCOM · PROYECTO 02</p>
+        <h1>Calculadora IP</h1>
+        <p class="subtitle">Consulta una subred IPv4 o distribuye direcciones según la demanda de cada grupo.</p>
+      </div>
+      <span class="badge"><span aria-hidden="true"></span> IPv4 · Funciona sin conexión</span>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="calculator" aria-labelledby="cidr-title">
+      <header class="section-heading">
+        <span class="section-number" aria-hidden="true">01</span>
+        <div>
+          <h2 id="cidr-title">Calculadora CIDR</h2>
+          <p>Obtén la máscara, el rango de hosts y el broadcast de una dirección.</p>
+        </div>
+      </header>
+      <form id="cidr-form" class="form-grid" novalidate>
+        <div class="field">
+          <label for="cidr-input">Dirección y prefijo o máscara</label>
+          <input id="cidr-input" type="text" placeholder="192.168.10.0/24" aria-describedby="cidr-hint" spellcheck="false" autocomplete="off" required>
+          <p id="cidr-hint" class="hint">También puedes usar <code>192.168.10.34 255.255.255.0</code>.</p>
+        </div>
+        <div class="actions">
+          <button type="submit">Calcular CIDR</button>
+          <button type="button" class="example" id="cidr-example">Usar ejemplo</button>
+        </div>
+      </form>
+      <p class="error" id="cidr-error" role="alert" hidden></p>
+      <section class="results" id="cidr-results" aria-labelledby="cidr-result-title" hidden>
+        <h3 id="cidr-result-title" tabindex="-1">Resultado CIDR</h3>
+        <dl class="metrics" id="cidr-metrics"></dl>
+        <p class="hint" id="cidr-special" hidden></p>
+        <details>
+          <summary>Ver representación binaria</summary>
+          <dl class="metrics binary" id="cidr-binary"></dl>
+        </details>
+      </section>
+    </section>
+
+    <section class="calculator" aria-labelledby="vlsm-title">
+      <header class="section-heading">
+        <span class="section-number" aria-hidden="true">02</span>
+        <div>
+          <h2 id="vlsm-title">Calculadora VLSM</h2>
+          <p>Asigna bloques contiguos empezando por las subredes con mayor demanda.</p>
+        </div>
+      </header>
+      <form id="vlsm-form" class="form-grid" novalidate>
+        <div class="field">
+          <label for="vlsm-base">Red base</label>
+          <input id="vlsm-base" type="text" placeholder="192.168.0.0/24" spellcheck="false" autocomplete="off" required>
+        </div>
+        <div class="field">
+          <label for="vlsm-requests">Requerimientos por subred</label>
+          <textarea id="vlsm-requests" rows="4" placeholder="Ventas: 100&#10;Soporte: 50" aria-describedby="vlsm-hint" spellcheck="false" required></textarea>
+          <p id="vlsm-hint" class="hint">Una subred por línea en formato <code>Nombre: hosts</code>.</p>
+        </div>
+        <div class="actions">
+          <button type="submit">Asignar subredes</button>
+          <button type="button" class="example" id="vlsm-example">Usar ejemplo</button>
+        </div>
+      </form>
+      <p class="error" id="vlsm-error" role="alert" hidden></p>
+      <section class="results" id="vlsm-results" aria-labelledby="vlsm-result-title" hidden>
+        <h3 id="vlsm-result-title" tabindex="-1">Asignación VLSM</h3>
+        <dl class="metrics" id="vlsm-metrics"></dl>
+        <div class="table-scroll" role="region" aria-label="Tabla de subredes asignadas" tabindex="0">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Subred</th><th scope="col">Hosts pedidos</th>
+                <th scope="col">Red / prefijo</th><th scope="col">Máscara</th>
+                <th scope="col">Rango de hosts</th><th scope="col">Broadcast</th>
+                <th scope="col">Hosts válidos</th><th scope="col">Hosts sin usar</th>
+              </tr>
+            </thead>
+            <tbody id="vlsm-rows"></tbody>
+          </table>
+        </div>
+        <p class="hint">Los hosts sin usar pertenecen a bloques ya asignados. Las direcciones libres están fuera de esos bloques.</p>
+      </section>
+    </section>
+  </main>
+  <footer class="wrap footer">Escuela Superior de Cómputo · Subredes IPv4</footer>
+</body>
+</html>
